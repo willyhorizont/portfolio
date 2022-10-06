@@ -1,48 +1,21 @@
 {
-  "homepage": "https://willyhorizont.github.io/portfolio",
-  "name": "portfolio",
+  "name": "portfolio-next",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^5.10.3",
-    "@mui/material": "^5.10.3",
-    "axios": "^0.27.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "build": "react-scripts build",
-    "check-style-error": "eslint . --ext .js --quiet'",
-    "fix-style-error": "eslint . --ext .js --quiet --fix'"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "lint": "next lint"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "eslint": "^8.2.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "gh-pages": "^4.0.0",
-    "prettier": "2.7.1"
+    "eslint": "8.24.0",
+    "eslint-config-next": "12.3.1"
   }
 }
