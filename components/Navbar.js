@@ -12,10 +12,10 @@ const Navbar = () => {
           <Link href="/">
             Willy Horizont&apos;s Portfolio
           </Link>
-          <Link href={`${BASE_PATH}/utils/longlat-to-latlong`}>
+          <Link href="/utils/longlat-to-latlong">
             Longlat to Latlong
           </Link>
-          <Link href={`${BASE_PATH}/utils/file-url-to-base64`}>
+          <Link href="/utils/file-url-to-base64">
           File Url to Base64
           </Link>
         </div>

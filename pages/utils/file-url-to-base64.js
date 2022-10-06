@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import readBlob from '../../utils/readBlob';
+import Head from 'next/head';
+import { BASE_PATH } from '../../configs/constants';
 
 const FileUrlToBase64 = () => {
   const [fileUrl, setFileUrl] = useState('');
@@ -29,15 +31,20 @@ const FileUrlToBase64 = () => {
 
   return (
     <div style={{ padding: '8px' }}>
+      <Head>
+        <title>File Url To Base64</title>
+        <meta name="description" content="file url string to base64 string" />
+        <link rel="icon" href={`${BASE_PATH}/favicon.ico`} />
+      </Head>
+
       {loading && <p>loading...</p>}
       <h3 style={{ textAlign: 'center' }}>File Url String To Base64</h3>
       <h4 style={{ textAlign: 'center' }}>File url string</h4>
       <input value={fileUrl} onChange={getBase64String} style={{ width: '100%' }} />
       <h4 style={{ textAlign: 'center' }}>Base64 string result</h4>
-      <input
+      <textarea
         value={base64String}
-        minRows={10}
-        maxRows={20}
+        rows={20}
         multiline
         style={{ width: '100%', borderRadius: '8px', backgroundColor: '#091929', color: '#ddd' }}
       />

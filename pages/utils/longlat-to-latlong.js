@@ -1,4 +1,6 @@
+import Head from 'next/head';
 import React, { useState } from 'react';
+import { BASE_PATH } from '../../configs/constants';
 
 const LongLatToLatLong = () => {
   const [latLong, setLatLong] = useState('');
@@ -12,14 +14,19 @@ const LongLatToLatLong = () => {
 
   return (
     <div style={{ padding: '8px' }}>
+      <Head>
+        <title>Long Lat To Lat Long</title>
+        <meta name="description" content="Long Lat To Lat Long LongLat To LatLong" />
+        <link rel="icon" href={`${BASE_PATH}/favicon.ico`} />
+      </Head>
+
       <h3 style={{ textAlign: 'center' }}>Longlat to Latlong</h3>
       <h4 style={{ textAlign: 'center' }}>Paste Longlat here to get Latlong</h4>
-      <input
+      <textarea
         value={latLong}
         placeholder="-7.37154006899988,109.688911438 -7.37160134799996,109.688801012 -7.37167999899998,109.688659999"
         onChange={handleLatLong}
-        minRows={10}
-        maxRows={20}
+        rows={20}
         multiline
         style={{ width: '100%', borderRadius: '8px', backgroundColor: '#091929', color: '#ddd' }}
       />
