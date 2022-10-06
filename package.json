@@ -1,4 +1,5 @@
 {
+  "homepage": "https://willyhorizont.github.io/portfolio",
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
@@ -9,6 +10,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "check-style-error": "eslint . --ext .js --quiet'",
     "fix-style-error": "eslint . --ext .js --quiet --fix'"
@@ -33,6 +36,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "gh-pages": "^4.0.0",
     "prettier": "2.7.1"
   }
 }
