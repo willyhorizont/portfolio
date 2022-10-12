@@ -1,26 +1,15 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { BASE_PATH } from '../configs/constants';
+import { AppBar, Toolbar } from '@mui/material';
 
 const Navbar = () => {
-  const [utilsAnchor, setUtilsAnchor] = useState();
-
   return (
-    <>
-      <div style={{ position: 'sticky', padding: '4px', backgroundColor: '#121212' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', columnGap: '8px' }}>
-          <Link href="/">
-            Willy Horizont&apos;s Portfolio
-          </Link>
-          <Link href="/utils/longlat-to-latlong">
-            Longlat to Latlong
-          </Link>
-          <Link href="/utils/file-url-to-base64">
-          File Url to Base64
-          </Link>
-        </div>
-      </div>
-    </>
+    <AppBar position="sticky" sx={{ padding: '4px', backgroundColor: '#121212' }}>
+      <Toolbar sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', columnGap: '8px' }}>
+        <Link href="/">
+          Willy Horizont&apos;s Portfolio
+        </Link>
+      </Toolbar>
+    </AppBar>
   );
 };
 

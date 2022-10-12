@@ -1,70 +1,109 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { BASE_PATH } from '../configs/constants'
-import styles from '../styles/Home.module.css'
+import { Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import MainLayout from '../components/MainLayout';
+import { BASE_PATH } from '../configs/constants';
 
 export default function Home() {
+  const router = useRouter();
+
+  const gotoProject = (route) => () => router.push(route);
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>Willy Horizont</title>
         <meta name="description" content="christian willy horizont portfolio" />
         <link rel="icon" href={`${BASE_PATH}/favicon.ico`} />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <MainLayout>
+        <Typography gutterBottom variant="h1" component="div" textAlign="center">
           Willy Horizont&apos;s Portfolio
-        </h1>
+        </Typography>
+        <Typography gutterBottom variant="h2" component="div" textAlign="center">
+          Fullstack Web App Developer
+        </Typography>
 
-        <p className={styles.description}>
-          Fullstack javascript developer{' '}
-          {/* <code className={styles.code}>pages/index.js</code> */}
-        </p>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('projects/file-url-to-base64')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    File Url to Base64
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Convert File Url String to Base64 String
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('projects/file-to-base64')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    File to Base64
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Upload a File and Convert it to Base64 String
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/partial-text-search-using-regex')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Partial Text Search Using Regex
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Generate and Test Regex for Indonesian Pronounciation
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/google-maps-places-autocomplete-and-reverse-geocode')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Google Maps Places Autocomplete And Reverse Geocode
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Google Maps Places Autocomplete with Reverse Geocode on Map Click
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/longlat-to-latlong')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Longlat to Latlong
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Convert Longlat to Latlong
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        </Grid>
+      </MainLayout>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Made with ❤️{' '}
-          <span className={styles.logo}>
-            <Image src={`${BASE_PATH}/vercel.svg`} alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
-  )
+      {/* <footer style={{ display: 'flex', flex: 1, padding: '2rem 0', borderTop: '1px solid #eaeaea', justifyContent: 'center', alignItems: 'center' }}>
+        <Typography>
+          Made with ❤️
+        </Typography>
+      </footer> */}
+    </>
+  );
 }
