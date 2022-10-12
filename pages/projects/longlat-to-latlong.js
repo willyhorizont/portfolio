@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import { Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { BASE_PATH } from '../../configs/constants';
 import MainLayout from '../../components/MainLayout';
 
 const LongLatToLatLong = () => {
   const [latLong, setLatLong] = useState('');
+
+  const clearField = () => setLatLong('');
+
   const handleLatLong = (evt) => {
     if (!evt.target.value) {
       setLatLong('');
@@ -25,6 +28,8 @@ const LongLatToLatLong = () => {
     navigator.clipboard.writeText(latLongResult);
   };
 
+  const copyLatLong = () => navigator.clipboard.writeText(latLong);
+
   return (
     <>
       <Head>
@@ -34,12 +39,15 @@ const LongLatToLatLong = () => {
       </Head>
 
       <MainLayout>
-        <Paper elevation={3} sx={{ padding: '8px' }}>
-          <Typography variant="h3" textAlign="center" gutterBottom>Longlat to Latlong</Typography>
-          <Typography textAlign="center">Paste Longlat here to get Latlong</Typography>
+        <Paper elevation={3} sx={{ padding: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="h3" gutterBottom>Longlat to Latlong</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', columnGap: '8px' }}>
+            <Button variant="contained" onClick={clearField}>Clear</Button>
+            <Button variant="contained" onClick={copyLatLong}>Copy</Button>
+          </Box>
+          <Typography>Paste Longlat here to get Latlong</Typography>
           <TextField
             value={latLong}
-            placeholder="-7.37154006899988,109.688911438 -7.37160134799996,109.688801012 -7.37167999899998,109.688659999"
             onChange={handleLatLong}
             minRows={10}
             maxRows={20}
