@@ -98,8 +98,8 @@ const GoogleMapsPlacesAutocompleteAndGeocoder = () => {
   return (
     <>
       <Head>
-        <title>File Url To Base64</title>
-        <meta name="description" content="file url string to base64 string" />
+        <title>Google Maps Places Autocomplete and Reverse Geocode</title>
+        <meta name="description" content="google maps places autocomplete and reverse geocode" />
         <link rel="icon" href={`${BASE_PATH}/favicon.ico`} />
       </Head>
 

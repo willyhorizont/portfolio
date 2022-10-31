@@ -84,6 +84,34 @@ export default function Home() {
           </Grid>
           <Grid item xs={6}>
             <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/places-search-1')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Places Search 1
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Places Search 1
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/simple-polygon')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Google Maps Simple Polygons
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Google Maps Simple Polygons
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
               <CardActionArea onClick={gotoProject('/projects/longlat-to-latlong')}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
