@@ -84,13 +84,13 @@ export default function Home() {
           </Grid>
           <Grid item xs={6}>
             <Card sx={{ height: '100%' }}>
-              <CardActionArea onClick={gotoProject('/projects/places-search-1')}>
+              <CardActionArea onClick={gotoProject('/projects/lat-long-scrapper')}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Places Search 1
+                    Lat Long Scrapper
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Places Search 1
+                    Google Maps API Places SearchBox Lat Long Scrapper
                   </Typography>
                 </CardContent>
               </CardActionArea>

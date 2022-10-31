@@ -28,19 +28,23 @@ const PlacesSearch1 = () => {
       const searchBoxObj = new google.maps.places.SearchBox(pacInputRef.current, { componentRestrictions: { country: 'id' } });
       // gmapObj.controls[google.maps.ControlPosition.TOP_LEFT].push(pacInputRef.current);
 
-      gmapObj.addListener('bounds_changed', () => searchBoxObj.setBounds(gmapObj.getBounds()));
+      gmapObj.addListener('bounds_changed', () => {
+        console.log('bounds_changed');
+        searchBoxObj.setBounds(gmapObj.getBounds());
+      });
 
       let markerList = [];
 
       searchBoxObj.addListener('places_changed', () => {
-        const pacInputValue = pacInputRef.current.value.toUpperCase();
+        console.log('places_changed');
+        const pacInputValue = pacInputRef.current.value.toLowerCase();
         const placeList = searchBoxObj.getPlaces();
         console.log('placeList', placeList);
-        const filteredPlaceList = placeList.filter((tempat) => tempat?.name.toUpperCase().startsWith(pacInputValue));
+        const filteredPlaceList = placeList.filter((tempat) => tempat?.name?.toLowerCase?.()?.includes?.(pacInputValue));
         console.log('filteredPlaceList', filteredPlaceList);
         const newPlaceList = filteredPlaceList.map((tempat) => ({ name: tempat?.name, lat: tempat?.geometry?.location?.lat?.(), lng: tempat?.geometry?.location?.lng?.(), id: tempat?.place_id }));
         console.log('newPlaceList', newPlaceList);
-        setObjek(newPlaceList);
+        setObjek(newPlaceList?.length === 0 ? null : newPlaceList);
 
         if (placeList.length === 0) return;
 
@@ -84,35 +88,28 @@ const PlacesSearch1 = () => {
   return (
     <>
       <Head>
-        <title>Places Search 1</title>
-        <meta name="description" content="places search 1" />
+        <title>Lat Long Scrapper</title>
+        <meta name="description" content="Google Maps API Places SearchBox Lat Long Scrapper" />
         <link rel="icon" href={`${BASE_PATH}/favicon.ico`} />
       </Head>
 
       <MainLayout>
         <Box sx={{ display: 'flex', position: 'relative', flexDirection: 'column' }}>
-          {/* <TextField
-            inputRef={pacInputRef}
-            sx={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}
-            inputProps={{ style: { fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white' } }}
-            placeholder="Masukkan Alamat"
-            type="text"
-            variant="outlined"
-            autoComplete="false"
-          /> */}
           <div style={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}>
-            <input ref={pacInputRef} autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
+            <input ref={pacInputRef} placeholder="Masukkan Alamat" autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
           </div>
           <div className="map" style={{ height: '70vh', width: '100%', borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} ref={mapBox} />
-          <div id="hasilSearch">
-            {objek?.map?.((obj) => (
-              <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row' }}>
-                <div id="namaObj">{obj?.name}</div>
-                <div id="latObj">{obj?.lat}</div>
-                <div id="lngObj">{obj?.lng}</div>
-              </div>
-            ))}
-          </div>
+          {objek !== null && (
+            <div id="hasilSearch">
+              {objek?.map?.((obj) => (
+                <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div id="namaObj">{obj?.name}</div>
+                  <div id="latObj">{obj?.lat}</div>
+                  <div id="lngObj">{obj?.lng}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </Box>
       </MainLayout>
     </>
