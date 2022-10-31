@@ -104,13 +104,15 @@ const PlacesSearch1 = () => {
             <input ref={pacInputRef} autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
           </div>
           <div className="map" style={{ height: '70vh', width: '100%', borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} ref={mapBox} />
-          {objek?.map?.((obj) => (
-            <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row' }}>
-              <div id="namaObj">{obj?.name}</div>
-              <div id="latObj">{obj?.lat}</div>
-              <div id="lngObj">{obj?.lng}</div>
-            </div>
-          ))}
+          <div id="hasilSearch">
+            {objek?.map?.((obj) => (
+              <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row' }}>
+                <div id="namaObj">{obj?.name}</div>
+                <div id="latObj">{obj?.lat}</div>
+                <div id="lngObj">{obj?.lng}</div>
+              </div>
+            ))}
+          </div>
         </Box>
       </MainLayout>
     </>
