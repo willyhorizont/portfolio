@@ -49,7 +49,7 @@ const LatLongScrapper = () => {
         const pacInputValue = pacInputRef.current.value.toLowerCase();
         const placeList = searchBoxObj.getPlaces();
         // console.log('placeList', placeList);
-        const filteredPlaceList = placeList.filter((tempat) => tempat?.name?.toLowerCase?.()?.includes?.(pacInputValue));
+        const filteredPlaceList = placeList.filter((tempat) => tempat?.name?.toLowerCase?.()?.startsWith?.(pacInputValue));
         // console.log('filteredPlaceList', filteredPlaceList);
         const newPlaceList = filteredPlaceList.map((tempat) => ({ name: tempat?.name, lat: tempat?.geometry?.location?.lat?.(), lng: tempat?.geometry?.location?.lng?.(), id: tempat?.place_id }));
         // console.log('newPlaceList', newPlaceList);
