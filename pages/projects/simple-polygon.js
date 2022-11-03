@@ -7,7 +7,7 @@ import { BASE_PATH, indonesiaBound, indonesiaCoordinate } from '../../configs/co
 import MainLayout from '../../components/MainLayout';
 import jatisampurnaPath from '../../configs/jatisampurnaPath.json';
 
-const loader = new Loader({ apiKey: 'AIzaSyAraptFbVXN4LZi66o7tDbrvEti1a8gVeo', language: 'id-ID', version: 'weekly', libraries: ['places'] });
+const loader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
 
 const kotakIndonesia = [
   {
