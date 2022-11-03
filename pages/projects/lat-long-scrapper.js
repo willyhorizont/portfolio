@@ -7,7 +7,7 @@ import mapStyles from '../../configs/googleMapStyles';
 import { BASE_PATH, indonesiaBound, indonesiaCoordinate } from '../../configs/constants';
 import MainLayout from '../../components/MainLayout';
 
-const loader = new Loader({ apiKey: 'AIzaSyAraptFbVXN4LZi66o7tDbrvEti1a8gVeo', language: 'id-ID', version: 'weekly', libraries: ['places'] });
+const loader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
 
 const LatLongScrapper = () => {
   const pacInputRef = useRef(null);
