@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { Loader } from '@googlemaps/js-api-loader';
 import mapStyles from '../../configs/googleMapStyles';
 import { BASE_PATH, indonesiaBound, indonesiaCoordinate } from '../../configs/constants';
@@ -111,32 +111,34 @@ const LatLongScrapper = () => {
       </Head>
 
       <MainLayout>
-        <Box sx={{ display: 'flex', position: 'relative', flexDirection: 'column' }}>
-          <div style={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}>
-            <input ref={pacInputRef} onKeyDown={handleEnterKey} placeholder="Masukkan Alamat" autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
-          </div>
-          <div className="map" id="mapRef" style={{ height: '70vh', width: '100%', borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} ref={mapRef} />
-          {objek !== null && (
-            <div id="hasilSearch">
-              <div style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
-                <div style={{ flex: 1 }}>Nama</div>
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
-                  <div>Lat</div>
-                  <div>Lng</div>
-                </div>
-              </div>
-              {objek?.map?.((obj) => (
-                <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
-                  <div id="namaObj" style={{ flex: 1 }}>{obj?.name}</div>
+        <Paper elevation={3} sx={{ padding: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="h3" textAlign="center" gutterBottom>Lat Long Scrapper</Typography>
+          <Box sx={{ display: 'flex', position: 'relative', flexDirection: 'column', width: '100%' }}>
+            <div style={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}>
+              <input ref={pacInputRef} onKeyDown={handleEnterKey} placeholder="Masukkan Alamat" autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
+            </div>
+            <div className="map" id="mapRef" style={{ height: '70vh', width: '100%', borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} ref={mapRef} />
+            {objek !== null && (
+              <div id="hasilSearch">
+                <div style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
+                  <div style={{ flex: 1 }}>Nama</div>
                   <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
-                    <div id="latObj">{obj?.lat}</div>
-                    <div id="lngObj">{obj?.lng}</div>
+                    <div>Lat</div>
+                    <div>Lng</div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-          {/* <div id="hasilSearch">
+                {objek?.map?.((obj) => (
+                  <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
+                    <div id="namaObj" style={{ flex: 1 }}>{obj?.name}</div>
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
+                      <div id="latObj">{obj?.lat}</div>
+                      <div id="lngObj">{obj?.lng}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {/* <div id="hasilSearch">
             <div style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
               <div style={{ flex: 1 }}>Nama</div>
               <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
@@ -154,7 +156,8 @@ const LatLongScrapper = () => {
               </div>
             ))}
           </div> */}
-        </Box>
+          </Box>
+        </Paper>
       </MainLayout>
     </>
   );
