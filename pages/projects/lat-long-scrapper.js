@@ -94,10 +94,10 @@ const LatLongScrapper = () => {
         markerList.push(new google.maps.Marker({ map: gmapObj, title: place?.name, position: place?.geometry?.location }));
 
         if (pacInputValue === katakunci && kondisi === 'startsWith' && place?.name?.toLowerCase?.()?.startsWith?.(pacInputValue)) {
-          setObjek({ name: place?.name, lat: place?.geometry?.location?.lat?.(), lng: place?.geometry?.location?.lng?.(), id: place?.place_id });
+          setObjek([{ name: place?.name, lat: place?.geometry?.location?.lat?.(), lng: place?.geometry?.location?.lng?.(), id: place?.place_id }]);
           return;
         }
-        if (pacInputValue === katakunci) setObjek({ name: place?.name, lat: place?.geometry?.location?.lat?.(), lng: place?.geometry?.location?.lng?.(), id: place?.place_id });
+        if (pacInputValue === katakunci) setObjek([{ name: place?.name, lat: place?.geometry?.location?.lat?.(), lng: place?.geometry?.location?.lng?.(), id: place?.place_id }]);
       });
     }).catch((err) => alert('Gagal memuat google maps karena: ', err));
   }, [kondisi]);
