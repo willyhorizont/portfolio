@@ -1,99 +1,75 @@
 import Head from 'next/head';
-import React, { useState, useEffect, useRef } from 'react';
-import { Box, TextField } from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+import { Box, Paper, Typography } from '@mui/material';
 import { Loader } from '@googlemaps/js-api-loader';
 import mapStyles from '../../configs/googleMapStyles';
 import { BASE_PATH, indonesiaBound, indonesiaCoordinate } from '../../configs/constants';
 import MainLayout from '../../components/MainLayout';
 
-const loader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
+const googleMapsLoader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
 
 const GoogleMapsPlacesAutocompleteAndGeocoder = () => {
-  const [google, setGoogle] = useState(null);
-  const [gmapObj, setGmapObj] = useState(null);
-  const [markerObj, setMarkerObj] = useState(null);
-  const [geocoderObj, setGeocoderObj] = useState(null);
-  const [autocompleteObj, setAutocompleteObj] = useState(null);
   const pacInputRef = useRef(null);
-  const mapBox = useRef();
+  const mapRef = useRef();
 
   useEffect(() => {
-    loader.load().then((gugel) => setGoogle(gugel)).catch((err) => alert('Gagal memuat google maps karena: ', err));
-    return () => setGoogle(null);
-  }, []);
+    googleMapsLoader.load().then((google) => {
+      const gmapObj = new google.maps.Map(mapRef.current, { center: indonesiaCoordinate, zoom: 4, mapTypeControl: false, disableDefaultUI: true, mapTypeId: 'roadmap', styles: mapStyles.night, gestureHandling: 'greedy', restriction: { latLngBounds: indonesiaBound, strictBounds: false } });
+      const markerObj = new google.maps.Marker();
+      const geocoderObj = new google.maps.Geocoder();
+      const autocompleteObj = new google.maps.places.Autocomplete(pacInputRef.current, { componentRestrictions: { country: 'id' } });
 
-  useEffect(() => {
-    if (google === null || mapBox.current === null || pacInputRef.current === null) return;
-    setGmapObj(new google.maps.Map(mapBox.current, {
-      center: indonesiaCoordinate,
-      zoom: 4,
-      mapTypeControl: false,
-      disableDefaultUI: true,
-      mapTypeId: 'roadmap',
-      styles: mapStyles.night,
-      gestureHandling: 'greedy',
-      restriction: { latLngBounds: indonesiaBound, strictBounds: false }
-    }));
-    setMarkerObj(new google.maps.Marker());
-    setGeocoderObj(new google.maps.Geocoder());
-    setAutocompleteObj(new google.maps.places.Autocomplete(pacInputRef.current, { componentRestrictions: { country: 'id' } }));
-    // eslint-disable-next-line consistent-return
-    return () => {
-      setGmapObj(null);
-      setMarkerObj(null);
-      setGeocoderObj(null);
-      setAutocompleteObj(null);
-    };
-  }, [google, mapBox.current, pacInputRef.current]);
+      autocompleteObj.bindTo('bounds', gmapObj);
+      const autocompletePlaceChangedListener = autocompleteObj.addListener('place_changed', () => {
+        const place = autocompleteObj.getPlace();
+        if (!place?.geometry || !place?.geometry?.location) {
+          alert(`Tidak ada detail tersedia untuk: ${place?.name}`);
+          return;
+        }
 
-  useEffect(() => {
-    if (gmapObj === null || markerObj === null || geocoderObj === null || autocompleteObj === null) return;
-    autocompleteObj.bindTo('bounds', gmapObj);
-    const autocompletePlaceChangedListener = autocompleteObj.addListener('place_changed', () => {
-      const place = autocompleteObj.getPlace();
-      if (!place?.geometry || !place?.geometry?.location) {
-        alert(`Tidak ada detail tersedia untuk: ${place?.name}`);
-        return;
-      }
+        if (place?.geometry?.viewport) gmapObj.fitBounds(place?.geometry?.viewport);
+        gmapObj.setCenter(place?.geometry?.location);
+        markerObj.setMap(gmapObj);
+        markerObj.setPosition(place?.geometry?.location);
+        gmapObj.panTo(place?.geometry?.location);
 
-      if (place?.geometry?.viewport) gmapObj.fitBounds(place?.geometry?.viewport);
-      gmapObj.setCenter(place?.geometry?.location);
-      markerObj.setMap(gmapObj);
-      markerObj.setPosition(place?.geometry?.location);
-      gmapObj.panTo(place?.geometry?.location);
+        console.log('autocomplete result:', place);
+      });
 
-      console.log('autocomplete result:', place);
-    });
+      const gmapClickListener = gmapObj.addListener('click', async (evt) => {
+        const clickedLocation = evt?.latLng?.toJSON?.();
+        gmapObj.setCenter(clickedLocation);
+        markerObj.setMap(gmapObj);
+        markerObj.setPosition(clickedLocation);
+        gmapObj.panTo(clickedLocation);
 
-    const gmapClickListener = gmapObj.addListener('click', async (evt) => {
-      const clickedLocation = evt?.latLng?.toJSON?.();
-      gmapObj.setCenter(clickedLocation);
-      markerObj.setMap(gmapObj);
-      markerObj.setPosition(clickedLocation);
-      gmapObj.panTo(clickedLocation);
+        console.log('clicked location:', clickedLocation);
 
-      console.log('clicked location:', clickedLocation);
+        try {
+          const geocodeResponse = await geocoderObj.geocode({ location: clickedLocation });
+          const geocodeResponseFirstResult = geocodeResponse?.results?.[0];
+          console.log('geocode result:', geocodeResponseFirstResult);
+        } catch (err) {
+          alert('Gagal reverse geocode karena:: ', err?.message);
+        }
+      });
 
-      try {
-        const geocodeResponse = await geocoderObj.geocode({ location: clickedLocation });
-        const geocodeResponseFirstResult = geocodeResponse?.results?.[0];
-        console.log('geocode result:', geocodeResponseFirstResult);
-      } catch (err) {
-        alert('Gagal reverse geocode karena:: ', err?.message);
-      }
-    });
+      const markerClickListener = markerObj.addListener('click', () => markerObj.setMap(null));
 
-    const markerClickListener = markerObj.addListener('click', () => markerObj.setMap(null));
-
-    // eslint-disable-next-line consistent-return
-    return () => {
-      if (google) {
+      return () => {
         google.maps.event.removeListener(autocompletePlaceChangedListener);
         google.maps.event.removeListener(gmapClickListener);
         google.maps.event.removeListener(markerClickListener);
+      };
+    }).catch((err) => alert('Gagal memuat google maps karena: ', err));
+    return () => {
+      if (googleMapsLoader) {
+        googleMapsLoader.reset();
+        delete window.google;
+        Loader.instance = undefined;
       }
     };
-  }, [gmapObj, markerObj, geocoderObj, autocompleteObj]);
+  }, []);
 
   return (
     <>
@@ -104,18 +80,15 @@ const GoogleMapsPlacesAutocompleteAndGeocoder = () => {
       </Head>
 
       <MainLayout>
-        <Box sx={{ display: 'flex', position: 'relative' }}>
-          <TextField
-            inputRef={pacInputRef}
-            sx={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}
-            inputProps={{ style: { fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white' } }}
-            placeholder="Masukkan Alamat"
-            type="text"
-            variant="outlined"
-            autoComplete="false"
-          />
-          <div className="map" style={{ height: '70vh', width: '100%', borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} ref={mapBox} />
-        </Box>
+        <Paper elevation={3} sx={{ padding: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="h3" textAlign="center" gutterBottom>Google Maps Places Autocomplete and Reverse Geocode</Typography>
+          <Box sx={{ display: 'flex', position: 'relative', width: '100%' }}>
+            <div style={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}>
+              <input ref={pacInputRef} placeholder="Masukkan Alamat" autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
+            </div>
+            <div className="map" id="mapRef" style={{ height: '70vh', width: '100%', borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} ref={mapRef} />
+          </Box>
+        </Paper>
       </MainLayout>
     </>
   );

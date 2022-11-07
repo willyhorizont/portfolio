@@ -98,13 +98,13 @@ export default function Home() {
           </Grid>
           <Grid item xs={6}>
             <Card sx={{ height: '100%' }}>
-              <CardActionArea onClick={gotoProject('/projects/simple-polygon')}>
+              <CardActionArea onClick={gotoProject('/projects/google-maps-api-key-tester')}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Google Maps Simple Polygons
+                    Google Maps API Key Tester
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Google Maps Simple Polygons
+                    Test what google maps api key can be used for
                   </Typography>
                 </CardContent>
               </CardActionArea>

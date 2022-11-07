@@ -7,7 +7,7 @@ import mapStyles from '../../configs/googleMapStyles';
 import { BASE_PATH, indonesiaBound, indonesiaCoordinate } from '../../configs/constants';
 import MainLayout from '../../components/MainLayout';
 
-const loader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
+const googleMapsLoader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
 
 const LatLongScrapper = () => {
   const pacInputRef = useRef(null);
@@ -16,32 +16,19 @@ const LatLongScrapper = () => {
   const router = useRouter();
   const { katakunci, kondisi } = router.query;
 
-  const handleEnterKey = (evt) => {
-    if (evt.keyCode === 13) setObjek(null);
-  };
-
   useEffect(() => {
-    loader.load().then((google) => {
-      const gmapObj = new google.maps.Map(mapRef.current, {
-        center: indonesiaCoordinate,
-        zoom: 4,
-        mapTypeControl: false,
-        disableDefaultUI: true,
-        mapTypeId: 'roadmap',
-        styles: mapStyles.night,
-        gestureHandling: 'greedy',
-        restriction: { latLngBounds: indonesiaBound, strictBounds: false }
-      });
+    googleMapsLoader.load().then((google) => {
+      const gmapObj = new google.maps.Map(mapRef.current, { center: indonesiaCoordinate, zoom: 4, mapTypeControl: false, disableDefaultUI: true, mapTypeId: 'roadmap', styles: mapStyles.night, gestureHandling: 'greedy', restriction: { latLngBounds: indonesiaBound, strictBounds: false } });
       const searchBoxObj = new google.maps.places.SearchBox(pacInputRef.current, { componentRestrictions: { country: 'id' } });
 
-      gmapObj.addListener('bounds_changed', () => {
+      const boundChangedListener = gmapObj.addListener('bounds_changed', () => {
         // console.log('bounds_changed');
         searchBoxObj.setBounds(gmapObj.getBounds());
       });
 
       let markerList = [];
 
-      searchBoxObj.addListener('places_changed', () => {
+      const placeChangedListener = searchBoxObj.addListener('places_changed', () => {
         // console.log('places_changed');
         const pacInputValue = pacInputRef.current.value.toLowerCase();
         const placeList = searchBoxObj.getPlaces();
@@ -63,13 +50,8 @@ const LatLongScrapper = () => {
             // Create a marker for each place.
             markerList.push(new google.maps.Marker({ map: gmapObj, title: place?.name, position: place?.geometry?.location }));
 
-            if (place?.geometry?.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place?.geometry?.viewport);
-            }
-            if (!place?.geometry?.viewport) {
-              bounds.extend(place?.geometry?.location);
-            }
+            if (place?.geometry?.viewport) bounds.union(place?.geometry?.viewport); // Only geocodes have viewport.
+            if (!place?.geometry?.viewport) bounds.extend(place?.geometry?.location);
           });
           gmapObj.fitBounds(bounds);
 
@@ -99,8 +81,25 @@ const LatLongScrapper = () => {
         }
         if (pacInputValue === katakunci) setObjek([{ name: place?.name, lat: place?.geometry?.location?.lat?.(), lng: place?.geometry?.location?.lng?.(), id: place?.place_id }]);
       });
+
+      return () => {
+        google.maps.event.removeListener(boundChangedListener);
+        google.maps.event.removeListener(placeChangedListener);
+      };
     }).catch((err) => alert('Gagal memuat google maps karena: ', err));
+
+    return () => {
+      if (googleMapsLoader) {
+        googleMapsLoader.reset();
+        delete window.google;
+        Loader.instance = undefined;
+      }
+    };
   }, [kondisi]);
+
+  const handleEnterKey = (evt) => {
+    if (evt.keyCode === 13) setObjek(null);
+  };
 
   return (
     <>
@@ -113,7 +112,7 @@ const LatLongScrapper = () => {
       <MainLayout>
         <Paper elevation={3} sx={{ padding: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h3" textAlign="center" gutterBottom>Lat Long Scrapper</Typography>
-          <Box sx={{ display: 'flex', position: 'relative', flexDirection: 'column', width: '100%' }}>
+          <Box sx={{ display: 'flex', position: 'relative', width: '100%' }}>
             <div style={{ zIndex: 1, borderRadius: '8px', flexGrow: 1, width: 'calc(100% - 16px)', position: 'absolute', top: '8px', left: 0, right: 0, margin: '0 auto', backgroundColor: 'black' }}>
               <input ref={pacInputRef} onKeyDown={handleEnterKey} placeholder="Masukkan Alamat" autoComplete="false" type="text" id="pacInputRef" name="pacInputRef" style={{ fontSize: '1.6rem', padding: '4px', borderRadius: '8px', color: 'white', width: '100%' }} />
             </div>
@@ -138,24 +137,6 @@ const LatLongScrapper = () => {
                 ))}
               </div>
             )}
-            {/* <div id="hasilSearch">
-            <div style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
-              <div style={{ flex: 1 }}>Nama</div>
-              <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
-                <div>Lat</div>
-                <div>Lng</div>
-              </div>
-            </div>
-            {objek !== null && objek?.map?.((obj) => (
-              <div key={obj?.id} id="satuObj" style={{ display: 'flex', flexDirection: 'row', columnGap: '8px', justifyContent: 'space-between' }}>
-                <div id="namaObj" style={{ flex: 1 }}>{obj?.name}</div>
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
-                  <div id="latObj">{obj?.lat}</div>
-                  <div id="lngObj">{obj?.lng}</div>
-                </div>
-              </div>
-            ))}
-          </div> */}
           </Box>
         </Paper>
       </MainLayout>
