@@ -1,7 +1,7 @@
 const generateRegexFromSearchQuery = (searchQuery) => {
   const searchQueryLow = searchQuery.toLowerCase();
   const searchQueryNoSpecial = searchQueryLow.replace(/[^\w ]/g, '');
-  const searchQuerySingleWhiteSpace = searchQueryNoSpecial.replace(/\s{2,}/g, ' ');
+  const searchQuerySingleWhiteSpace = searchQueryNoSpecial.replace(/\s\s+/g, ' ');
   const searchQuerySplitted = searchQuerySingleWhiteSpace.split(' ');
   const searchQueryReduced = searchQuerySplitted.reduce((rslt, str, curIndex, arr) => {
     const strCopy = [...str];

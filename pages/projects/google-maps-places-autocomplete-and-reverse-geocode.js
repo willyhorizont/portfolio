@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { Loader } from '@googlemaps/js-api-loader';
@@ -6,11 +7,17 @@ import mapStyles from '../../configs/googleMapStyles';
 import { BASE_PATH, indonesiaBound, indonesiaCoordinate } from '../../configs/constants';
 import MainLayout from '../../components/MainLayout';
 
-const googleMapsLoader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
+const googleMapsLoader = new Loader({ apiKey: 'AIzaSyA0GE3dFR0orMQ7l8PJKtRU_3p99pgbrmw', language: 'id-ID', version: 'weekly', libraries: ['places'] });
 
 const GoogleMapsPlacesAutocompleteAndGeocoder = () => {
   const pacInputRef = useRef(null);
   const mapRef = useRef();
+  const router = useRouter();
+
+  window.gm_authFailure = () => {
+    console.log('Google Maps API Key Error');
+    router.push('/');
+  };
 
   useEffect(() => {
     googleMapsLoader.load().then((google) => {

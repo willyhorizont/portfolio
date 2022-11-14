@@ -70,6 +70,20 @@ export default function Home() {
           </Grid>
           <Grid item xs={6}>
             <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/autocomplete-searchbox')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Autocomplete Searchbox
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Autocomplete Searchbox Dropdown List Select Option API
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
               <CardActionArea onClick={gotoProject('/projects/google-maps-places-autocomplete-and-reverse-geocode')}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
@@ -77,6 +91,20 @@ export default function Home() {
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Google Maps Places Autocomplete with Reverse Geocode on Map Click
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/google-maps-embed-streetview-generator')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Google Maps Embed Street View Generator
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Generate Google Map Streetview Embedded Iframe By Lat Long
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -105,6 +133,20 @@ export default function Home() {
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Test what google maps api key can be used for
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card sx={{ height: '100%' }}>
+              <CardActionArea onClick={gotoProject('/projects/chip-input')}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Chip Input Component
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Chip Input Component for Categories, Tags, etc
                   </Typography>
                 </CardContent>
               </CardActionArea>
