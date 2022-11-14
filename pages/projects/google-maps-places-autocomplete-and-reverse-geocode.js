@@ -14,10 +14,12 @@ const GoogleMapsPlacesAutocompleteAndGeocoder = () => {
   const mapRef = useRef();
   const router = useRouter();
 
-  window.gm_authFailure = () => {
-    console.log('Google Maps API Key Error');
-    router.push('/');
-  };
+  if (typeof window !== 'undefined') {
+    window.gm_authFailure = () => {
+      console.log('Google Maps API Key Error');
+      router.push('/');
+    };
+  }
 
   useEffect(() => {
     googleMapsLoader.load().then((google) => {
