@@ -5,7 +5,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { BASE_PATH } from '../../configs/constants';
 import MainLayout from '../../components/MainLayout';
 
-const googleMapsLoader = new Loader({ apiKey: 'AIzaSyA0GE3dFR0orMQ7l8PJKtRU_3p99pgbrmw', language: 'id-ID', version: 'weekly', libraries: ['places'] });
+const googleMapsLoader = new Loader({ apiKey: 'AIzaSyBYVzK1OcNsLbsdtVwPObs5V-PsV1YhOX4', language: 'id-ID', version: 'weekly', libraries: ['places'] });
 
 const GoogleMapsEmbedMap = () => {
   const [latCilik, setLatCilik] = useState('');
