@@ -17,7 +17,7 @@ const GoogleMapsEmbedMap = () => {
   useEffect(() => {
     googleMapsLoader.load().then((google) => {
       if (latCilik === 0 || lngCilik === 0) return;
-      fetch(`https://maps.googleapis.com/maps/api/streetview/metadata?location=${latCilik},${lngCilik}&key=AIzaSyA0GE3dFR0orMQ7l8PJKtRU_3p99pgbrmw`)
+      fetch(`https://maps.googleapis.com/maps/api/streetview/metadata?location=${latCilik},${lngCilik}&key=AIzaSyA0GE3dFR0orMQ7l8PJKtRU_3p99pgbrmw&source=outdoor`)
         .then((response) => response.json())
         .then((data) => {
           const panoId = data?.pano_id || 'x'.repeat(24);
@@ -27,7 +27,7 @@ const GoogleMapsEmbedMap = () => {
             if (status === 'OK') {
               const point = streetViewPanoramaData.location.latLng;
               const panoHeading = google.maps.geometry.spherical.computeHeading(point, lokasi);
-              const newIframeSrc = `https://www.google.com/maps/embed?pb=!6m8!1m7!${panoId}!2m2!1d${latCilik}!2d${lngCilik}!3f${panoHeading}!4f0!5f0`;
+              const newIframeSrc = `https://www.google.com/maps/embed?pb=!6m8!1m7!1s${panoId}!2m2!1d${latCilik}!2d${lngCilik}!3f${panoHeading}!4f0!5f0`;
               setIframeSrc(newIframeSrc);
               setIframeElement(`<iframe title="generated-google-maps-embed-streetview" src=${newIframeSrc} width="600" height="450" style={{ border: 0 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" />`);
             }
