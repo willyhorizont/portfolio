@@ -132,7 +132,7 @@ export default function Home() {
                     Google Maps API Key Tester
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Test what google maps api key can be used for
+                    Test google maps api key whether is usable or not
                   </Typography>
                 </CardContent>
               </CardActionArea>

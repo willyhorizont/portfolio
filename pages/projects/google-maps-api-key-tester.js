@@ -76,7 +76,7 @@ ${apiKey}` : apiKey));
     <>
       <Head>
         <title>Google Maps API Key Tester</title>
-        <meta name="description" content="google maps API key tester" />
+        <meta name="description" content="Test google maps API key whether is usable or not" />
         <link rel="icon" href={`${BASE_PATH}/favicon.ico`} />
       </Head>
 
